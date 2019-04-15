@@ -3,16 +3,16 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <title>Admin page</title>
-    <link th:href="@{https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css}"
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
           rel="stylesheet" media="screen"/>
-    <link th:href="@{https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css}"
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
           rel="stylesheet" media="screen"/>
 
-    <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>-->
-    <!--<link rel="stylesheet"
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.2/css/bootstrap-select.min.css"/>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.2/js/bootstrap-select.min.js"></script>-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.2/js/bootstrap-select.min.js"></script>
     <style>
         body {
             background: #9ebfee;
@@ -54,7 +54,7 @@
 <div class="container-fluid">
     <div class="row">
         <header role="banner" id="top" class="navbar navbar-static-top">
-            <div th:fragment="navbar" role="navigation" class="navbar navbar-default">
+            <div role="navigation" class="navbar navbar-default">
                 <div class="container">
 
                     <div class="navbar-header">
@@ -76,7 +76,7 @@
 
                         </ul>
 
-                        <ul th:fragment="navbar" class="nav navbar-nav navbar-right">
+                        <ul class="nav navbar-nav navbar-right">
                             <li class="dropdown">
                                 <a data-toggle="dropdown" class="dropdown-toggle">
                                     Welcome, <span th:text="${admin.login}"></span> <b class="caret"></b></a>
@@ -103,11 +103,11 @@
 
                     <ul class="nav nav-tabs nav-content" role="tablist">
                         <li id="user-table-nav" class="active">
-                            <a href="#" th:href="@{user-panel}" aria-controls="user-panel" role="tab" data-toggle="tab">Users
+                            <a  href="#user-panel" aria-controls="user-panel" role="tab" data-toggle="tab">Users
                                 table</a>
                         </li>
                         <li id="add-user-nav">
-                            <a href="#" th:href="@{add-user-panel}" aria-controls="add-user-panel" role="tab"
+                            <a  href="#add-user-panel" aria-controls="add-user-panel" role="tab"
                                data-toggle="tab">New
                                 User</a>
                         </li>
@@ -134,51 +134,23 @@
 
                                             <tr th:each="user : ${users}">
 
-                                                <td th:utext="${user.id}">...</td>
-                                                <td th:utext="${user.login}">...</td>
-                                                <td th:utext="${user.password}"></td>
-                                                <td th:utext="${user.roles}"></td>
-                                                <!--<td>
-                                                    <a class="btn btn-primary"
-                                                       th:href="@{/admin/deleteUser/{id}(id=${user.id})}"><i
-                                                            class="glyphicon glyphicon-trash"></i>Delete</a>
-                                                </td>-->
-                                                <td>
-                                                    <button class="btn btn-primary btn-lg" data-toggle="modal" id="#myModal">
-                                                        Посмотреть демо
-                                                    </button>
-
-                                                    <!-- Modal -->
-                                                    <div class="modal fade" th:insert="~{footer :: #myModal}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                                                        <div class="modal-dialog">
-                                                            <div class="modal-content">
-                                                                <div class="modal-header">
-                                                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                                                    <h4 class="modal-title" id="myModalLabel">Название модали</h4>
-                                                                </div>
-                                                                <div class="modal-body">
-                                                                    ...
-                                                                </div>
-                                                                <div class="modal-footer">
-                                                                    <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
-                                                                    <button type="button" class="btn btn-primary">Сохранить изменения</button>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </td>
+                                                <td th:text="${user.id}">...</td>
+                                                <td th:text="${user.login}">...</td>
+                                                <td th:text="${user.password}"></td>
+                                                <td th:text="${user.roles}"></td>
                                                 <td>
                                                     <div class="btn-group-vertical btn-group-xs">
-                                                        <a id="editButton" class="btn btn-default"><i
+                                                        <a data-toggle="modal"  data-target="#myModal" class="btn btn-default"><i
                                                                 class="glyphicon glyphicon-pencil"></i>Edit</a>
                                                         <a class="btn btn-primary"
-                                                           th:href="@{/admin/deleteUser/{id}(id=${user.id})}"><i
+                                                           th:href="@{/admin/deleteUser/__${user.id}__}"><i
                                                                 class="glyphicon glyphicon-trash"></i>Delete</a>
                                                     </div>
+
                                                 </td>
-                                                <script th:inline="javascript">
+                                                <script th:inline="javascript" type="text/javascript">
                                                     jQuery(document).ready(function () {
-                                                        jQuery('#editButton').click(function () {
+                                                        jQuery('#editButton${user.id}').click(function () {
                                                             putValues("${user.id}", "${user.login}", "${user.password}");
                                                             $("#myModal").modal('show');
                                                         });
@@ -217,13 +189,14 @@
                                                                    type="password" placeholder="Password"
                                                                    name="password"/>
 
-                                                            <!--<label for="rol">Roles</label>-->
-                                                            <!--<select name="rol" id="rol" class="selectpicker"
+                                                            <label for="rol">Roles</label>
+                                                            <select name="rol" id="rol" class="selectpicker"
                                                                     multiple="multiple">
-                                                                <c:forEach var="role" items="${roles}">
-                                                                    <option value=${role.id}>${role.role}</option>
-                                                                </c:forEach>
-                                                            </select>-->
+                                                                th:each="role : ${roles}"
+                                                                    <option th:each="role : ${roles}"
+                                                                            th:value="${role.id}"><span th:text="${role.role}"></span></option>
+
+                                                            </select>
 
                                                             <button type="submit"
                                                                     class="btn btn-default add-user-button btn-lg"><span
@@ -257,7 +230,7 @@
                         </div>
                         <div class="col-lg-9 col-lg-offset-8 ">
                             <h1>User panel</h1>
-                            <p>Hello <span th:utext="${admin.login}"></span> !</p>
+                            <p>Hello <span th:text="${admin.login}"></span> !</p>
                         </div>
                     </div>
                 </div>
@@ -282,7 +255,7 @@
                             <div class="col-lg-6 col-lg-offset-3">
 
                                 <form id="edit-form"
-                                      action="${pageContext.servletContext.contextPath}/admin/editUser"
+                                      th:action="@{/admin/editUser}"
                                       method="POST">
                                     <div class="form-group text-center edit-form">
 
@@ -296,12 +269,14 @@
                                         <input id="pass-input-edit" class="form-control" type="text" name="password"
                                                required="required"/>
 
-                                        <!--<label for="roled">Roles</label>
-                                        <select name="roled" id="roled" class="selectpicker" multiple="multiple">
-                                            <c:forEach var="role" items="${roles}">
-                                                <option value=${role.id}>${role.role}</option>
-                                            </c:forEach>
-                                        </select>-->
+                                        <label for="roled">Roles</label>
+                                        <select name="roled" id="roled" class="selectpicker"
+                                                multiple="multiple">
+                                            th:each="role : ${roles}"
+                                            <option th:each="role : ${roles}"
+                                                    th:value="${role.id}"><span th:text="${role.role}"></span></option>
+
+                                        </select>
 
                                     </div>
                                 </form>
@@ -322,7 +297,7 @@
     </div>
 </div>
 
-<!--<script type="text/javascript">
+<script type="text/javascript">
     function putValues(id, login, pas) {
         $('#id-input-edit-hidden').val(id);
         $('#login-input-edit').val(login);
@@ -334,36 +309,7 @@
             $("#edit-form").submit();
         })
     })
-</script>-->
-
-<!-- <c:if test="${addError || addSuccess}">
-    <script>
-        $("#user-table-nav").removeClass('active');
-        $("#add-user-nav").addClass('active');
-        $("#user-panel").removeClass('active');
-        $("#add-user-panel").addClass('active');
-    </script>
-    </c:if>
-
-    <c:if test="${addError}">
-    <script>
-        $("#error-add-message").removeClass('hidden');
-    </script>
-    </c:if>
-
-    <c:if test="${addSuccess}">
-    <script>
-        $("#success-add-message").removeClass('hidden');
-    </script>
-    </c:if>
-
-    <c:if test="${editError}">
-    <script>
-        putValues("${editedUser.id}", "${editedUser.login}", "${editedUser.password}");
-        $("#myModal").modal('show');
-        $("#error-edit-message").removeClass('hidden');
-    </script>
-    </c:if>-->
+</script>
 
 </body>
 </html>

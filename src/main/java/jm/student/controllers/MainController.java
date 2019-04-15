@@ -26,9 +26,9 @@ public class MainController {
     private RoleService roleService;
 
     @Autowired
-    private MainController(UserService userService,RoleService roleService){
-        this.userService=userService;
-        this.roleService=roleService;
+    private MainController(UserService userService, RoleService roleService) {
+        this.userService = userService;
+        this.roleService = roleService;
     }
 
     @GetMapping("/users")
@@ -39,6 +39,7 @@ public class MainController {
         model.addObject("name", password);
         return model;
     }
+
     @GetMapping("/")
     public String toLoginPage() {
         return "redirect:/login";
@@ -79,30 +80,46 @@ public class MainController {
         return model;
     }
 
-    @RequestMapping(value = {"/admin/deleteUser/{id}"}, method = RequestMethod.GET)
+    @GetMapping("/user")
+    public ModelAndView userPage(@ModelAttribute ModelAndView model) {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        model.addObject("user", user);
+        return model;
+    }
+
+    @PostMapping("/admin/editUser")
+    public String editUser(@ModelAttribute User user, @RequestParam("roled") Long[] idRoles) {
+        Set<Role> roles = new HashSet<>();
+        for (Long id : idRoles) {
+            roles.add(roleService.getRoleById(id));
+        }
+        user.setRoles(roles);
+        userService.editUser(user);
+        return "redirect:/admin/uList";
+    }
+
+    @GetMapping("/admin/deleteUser/{id}")
     public String deleteUser(@PathVariable("id") Long id) {
         userService.removeUser(id);
         return "redirect:/admin/uList";
     }
 
-    @RequestMapping(value = { "/addUser" }, method = RequestMethod.GET)
-    public String showAddPersonPage(Model model) {
-
-        User user = new User();
-        model.addAttribute("user", user);
-
-        return "addUser";
+    @GetMapping("/admin/addUser")
+    public ModelAndView addUserPage(@ModelAttribute ModelAndView model) {
+        model.addObject("roles", roleService.getAllRoles());
+        return model;
     }
 
-    @RequestMapping(value = { "/addUser" }, method = RequestMethod.POST)
-    public String savePerson(
-                             @ModelAttribute("user") User user) {
-
+    @PostMapping("/admin/addUser")
+    public String addUser(@ModelAttribute User user, @RequestParam("rol") Long[] idRoles) {
         Set<Role> roles = new HashSet<>();
-            Role role=roleService.getRoleById(Long.valueOf(1));
-            roles.add(role);
+        for (Long id : idRoles) {
+            roles.add(roleService.getRoleById(id));
+        }
+
         user.setRoles(roles);
         userService.addUser(user);
-        return "users";
+
+        return "redirect:/admin/uList";
     }
 }
