@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Login</title>
+    <link th:href="@{https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css}"
+          rel="stylesheet" media="screen"/>
+    <link th:href="@{https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css}"
+          rel="stylesheet" media="screen"/>
+    <style>
+        body {
+            background: #9ebfee;
+        }
+
+        .empty-block {
+            height: 88px;
+        }
+    </style>
+</head>
+
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-lg-4 col-lg-offset-3">
+            <h1 class="page-header">Welcome</h1>
+            <!--<div th:if="${not isNotValid && not logout}">
+                <div class="empty-block"></div>
+            </div>-->
+            <div th:if="${isNotValid}">
+                <div class="alert alert-danger">
+                    <h3>Invalid login or password!</h3>
+                </div>
+            </div>
+            <div th:if="${logout}">
+                <div class="alert alert-success">
+                    <h3>Logout has bean successful</h3>
+                </div>
+            </div>
+            <h2>Please sign in</h2>
+            <form th:action="@{/processing-url}" method="POST">
+                <div class="form-group login-group">
+                    <input type="text" class="form-control" id="uName" name="login"
+                           required="required"/>
+                    <input type="text" class="form-control" id="uPass" name="password"
+                           required="required"/>
+                </div>
+                <input type="submit" class="btn btn-default btn-block" value="Sign in"/>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>
