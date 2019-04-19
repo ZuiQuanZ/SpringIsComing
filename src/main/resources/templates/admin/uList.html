@@ -60,7 +60,8 @@
                     <div class="navbar-header">
 
                         <div class="animbrand"><a href="#" class="navbar-brand"><span
-                                class="glyphicon glyphicon-leaf"></span>SpringIsComing</a></div>
+                                class="glyphicon glyphicon-leaf"></span>SpringIsComing</a>
+                        </div>
                     </div>
 
                     <div class="collapse navbar-collapse navbar-collapse">
@@ -69,8 +70,7 @@
                                             data-toggle="tab"><span class="glyphicon glyphicon-list"></span>
                                 Users list</a>
                             </li>
-                            <li class=""><a href="#user-page" aria-controls="user-page" role="tab"
-                                            data-toggle="tab"><span class="glyphicon glyphicon-user"></span> User
+                            <li class=""><a th:href="@{/user}"><span class="glyphicon glyphicon-user"></span> User
                             </a>
                             </li>
 
@@ -103,11 +103,11 @@
 
                     <ul class="nav nav-tabs nav-content" role="tablist">
                         <li id="user-table-nav" class="active">
-                            <a  href="#user-panel" aria-controls="user-panel" role="tab" data-toggle="tab">Users
+                            <a href="#user-panel" aria-controls="user-panel" role="tab" data-toggle="tab">Users
                                 table</a>
                         </li>
                         <li id="add-user-nav">
-                            <a  href="#add-user-panel" aria-controls="add-user-panel" role="tab"
+                            <a href="#add-user-panel" aria-controls="add-user-panel" role="tab"
                                data-toggle="tab">New
                                 User</a>
                         </li>
@@ -140,7 +140,9 @@
                                                 <td th:text="${user.roles}"></td>
                                                 <td>
                                                     <div class="btn-group-vertical btn-group-xs">
-                                                        <a data-toggle="modal"  data-target="#myModal" class="btn btn-default"><i
+                                                        <a data-toggle="modal" data-target="#myModal"
+                                                           th:attr="data-id=${user.id}"
+                                                           class="btn btn-default"><i
                                                                 class="glyphicon glyphicon-pencil"></i>Edit</a>
                                                         <a class="btn btn-primary"
                                                            th:href="@{/admin/deleteUser/__${user.id}__}"><i
@@ -148,14 +150,6 @@
                                                     </div>
 
                                                 </td>
-                                                <script th:inline="javascript" type="text/javascript">
-                                                    jQuery(document).ready(function () {
-                                                        jQuery('#editButton${user.id}').click(function () {
-                                                            putValues("${user.id}", "${user.login}", "${user.password}");
-                                                            $("#myModal").modal('show');
-                                                        });
-                                                    });
-                                                </script>
                                             </tr>
                                             </tbody>
                                         </table>
@@ -193,8 +187,9 @@
                                                             <select name="rol" id="rol" class="selectpicker"
                                                                     multiple="multiple">
                                                                 th:each="role : ${roles}"
-                                                                    <option th:each="role : ${roles}"
-                                                                            th:value="${role.id}"><span th:text="${role.role}"></span></option>
+                                                                <option th:each="role : ${roles}"
+                                                                        th:value="${role.id}"><span
+                                                                        th:text="${role.role}"></span></option>
 
                                                             </select>
 
@@ -255,10 +250,14 @@
                             <div class="col-lg-6 col-lg-offset-3">
 
                                 <form id="edit-form"
-                                      th:action="@{/admin/editUser}"
+                                      th:action="@{/editUser}"
                                       method="POST">
                                     <div class="form-group text-center edit-form">
-
+                                        <script type="text/javascript">
+                                            jQuery(document).ready(function () {
+                                                    putValues(attr('data-id'), $(this).attr('data-id') , $(this).attr("data-id"));
+                                            });
+                                        </script>
                                         <input type="hidden" id="id-input-edit-hidden" name="id"/>
 
                                         <label for="login-input-edit">Login</label>

@@ -39,9 +39,9 @@
             <h2>Please sign in</h2>
             <form th:action="@{/processing-url}" method="POST">
                 <div class="form-group login-group">
-                    <input type="text" class="form-control" id="uName" name="login"
+                    <input type="text" class="form-control"  name="login"
                            required="required"/>
-                    <input type="text" class="form-control" id="uPass" name="password"
+                    <input type="password" class="form-control"  name="password"
                            required="required"/>
                 </div>
                 <input type="submit" class="btn btn-default btn-block" value="Sign in"/>

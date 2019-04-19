@@ -83,19 +83,31 @@ public class MainController {
     @GetMapping("/user")
     public ModelAndView userPage(@ModelAttribute ModelAndView model) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        model.addObject("roles", roleService.getAllRoles());
         model.addObject("user", user);
         return model;
     }
 
-    @PostMapping("/admin/editUser")
-    public String editUser(@ModelAttribute User user, @RequestParam("roled") Long[] idRoles) {
+    @GetMapping("/editUser")
+    public ModelAndView editUserPage(@ModelAttribute ModelAndView model, @RequestParam("id") Long id) {
+        model.addObject("roles", roleService.getAllRoles());
+        model.addObject("user", userService.getById(id));
+        return model;
+    }
+
+    @PostMapping("/editUser")
+    public String editUser(@ModelAttribute User user, @RequestParam(value = "roled", required = false) Long[] idRoles) {
         Set<Role> roles = new HashSet<>();
-        for (Long id : idRoles) {
-            roles.add(roleService.getRoleById(id));
+
+        if (idRoles != null) {
+            for (Long id : idRoles) {
+                roles.add(roleService.getRoleById(id));
+            }
         }
+
         user.setRoles(roles);
         userService.editUser(user);
-        return "redirect:/admin/uList";
+        return "redirect:/user";
     }
 
     @GetMapping("/admin/deleteUser/{id}")
@@ -111,12 +123,13 @@ public class MainController {
     }
 
     @PostMapping("/admin/addUser")
-    public String addUser(@ModelAttribute User user, @RequestParam("rol") Long[] idRoles) {
+    public String addUser(@ModelAttribute User user, @RequestParam(value = "rol", required = false) Long[] idRoles) {
         Set<Role> roles = new HashSet<>();
-        for (Long id : idRoles) {
-            roles.add(roleService.getRoleById(id));
+        if (idRoles != null) {
+            for (Long id : idRoles) {
+                roles.add(roleService.getRoleById(id));
+            }
         }
-
         user.setRoles(roles);
         userService.addUser(user);
 

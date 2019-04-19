@@ -1,25 +1,156 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Welcome to the Spring MVC Quickstart application! Get started quickly by signing up!</title>
+    <title>User page</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <link th:href="@{https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css}"
           rel="stylesheet" media="screen"/>
     <link th:href="@{https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css}"
           rel="stylesheet" media="screen"/>
 
-    <script  type="text/javascript" th:src="@{//code.jquery.com/jquery-2.0.3.min.js}"></script>
-    <script  type="text/javascript" th:src="@{//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.js}"></script>
+    <script type="text/javascript" th:src="@{//code.jquery.com/jquery-2.0.3.min.js}"></script>
+    <script type="text/javascript" th:src="@{//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.js}"></script>
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.2/css/bootstrap-select.min.css"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.2/js/bootstrap-select.min.js"></script>
+    <style>
+        body {
+            background: #9ebfee;
+        }
+
+        .left-menu {
+            background: #f3fafa;
+            padding: 20px 0 0 0;
+            min-height: 94vh;
+        }
+
+        .left-menu ul li {
+            margin: 0px;
+        }
+
+        .left-menu ul li a {
+            border-radius: 0px;
+        }
+
+        .nav-content {
+            margin-bottom: -1px;
+        }
+
+        .edit-form label {
+            font-weight: 100;
+            font-size: 20px;
+            margin: 10px 0 10px 0;
+        }
+    </style>
 </head>
 <body>
-<div class="container">
-    <div class="text-center">
-
-        <!--<p>
-            <a id="myModal" class="btn btn-success btn-lg">Sign up</a>
-        </p>-->
-        <a data-toggle="modal" data-target="#modal-warning" th:attr="data-target='#myModal'"><span class="glyphicon glyphicon-trash"></span></a>
+<div class="container-fluid">
+    <div class="row">
+        <div class="navbar navbar-inverse navbar-static-top header">
+            <div class="animbrand"><a href="#" class="navbar-brand"><span
+                    class="glyphicon glyphicon-leaf"></span>SpringIsComing</a>
+            </div>
+            <a class="navbar-brand pull-right" th:href="@{/logout}">Logout</a>
+        </div>
     </div>
+
+    <div class="col-lg-9 col-lg-offset-1 col-md-10 col-xs-10">
+        <h1>User panel</h1>
+        <p>Hello <span th:text="${user.login}"></span></p>
+
+        <div class="container">
+            <div class="text-center">
+
+                <!--<p>
+                    <a id="myModal" class="btn btn-success btn-lg">Sign up</a>
+                </p>-->
+                <a data-toggle="modal" data-target="#modal-warning" th:attr="data-target='#myModal'"><span
+                        class="glyphicon glyphicon-trash"></span></a>
+            </div>
+        </div>
+
+        <div class="modal fade" th:id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title" id="myModalLabel">Signup</h4>
+                    </div>
+                    <div class="modal-body" id="myModalBody">Lorem ipsum</div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="btn-group-vertical btn-group-lg">
+            <a data-toggle="modal" data-target="#Modal" class="btn btn-default"><i
+                    class="glyphicon glyphicon-pencil"></i>Edit</a>
+
+            <a class="btn btn-primary"
+               th:href="@{/logout}"><i
+                    class="glyphicon glyphicon-trash"></i>Logout</a>
+        </div>
+
+        <div id="Modal" class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                        <h4 class="modal-title">Edit user</h4>
+                    </div>
+
+                    <div class="modal-body">
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-lg-6 col-lg-offset-3">
+
+                                    <form id="edit-form"
+                                          th:action="@{/editUser}"
+                                          method="POST">
+                                        <div class="form-group text-center edit-form">
+
+                                            <input type="hidden" id="id-input-edit-hidden" name="id" th:value="${user.id}"/>
+
+                                            <label for="login-input-edit">Login</label>
+                                            <input id="login-input-edit" class="form-control" type="text" name="login"
+                                                   required="required" th:value="${user.login}"/>
+
+                                            <label for="pass-input-edit">Password</label>
+                                            <input id="pass-input-edit" class="form-control" type="text" name="password"
+                                                   required="required" th:value="${user.password}"/>
+                                            <label for="roled">Roles</label>
+                                            <select name="roled" id="roled" class="selectpicker"
+                                                    multiple="multiple" required="required">
+                                                th:each="role : ${roles}"
+                                                <option th:each="role : ${roles}"
+                                                        th:value="${role.id}"><span th:text="${role.role}"></span>
+                                                </option>
+
+                                            </select>
+
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal"><i
+                                class="glyphicon glyphicon-remove"></i>Close
+                        </button>
+                        <button id="edit-submit" class="btn btn-primary"><i
+                                class="glyphicon glyphicon-pencil"></i>Edit User
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
 </div>
 <!--<script th:inline="javascript" type="text/javascript">
     /* Fill in modal with content loaded with Ajax */
@@ -37,80 +168,27 @@
     });
 </script>-->
 <!-- Modal -->
-<div class="modal fade" th:id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title" id="myModalLabel">Signup</h4>
-            </div>
-            <div class="modal-body" id="myModalBody">Lorem ipsum</div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="btn-group-vertical btn-group-xs">
-    <a data-toggle="modal" data-target="#modal" th:attr="data-target='#Modal'" class="btn btn-default"><i
-            class="glyphicon glyphicon-pencil"></i>Edit</a>
-    <a class="btn btn-primary"
-       th:href="@{/logout}"><i
-            class="glyphicon glyphicon-trash"></i>Logout</a>
-</div>
+<script type="text/javascript">
+    jQuery(document).ready(function () {
+        jQuery("#editButton").click(function () {
+            //putValues(th:value="${user.id}", th:value="${user.login}", th:value= "${user.password}");
+            $("#Modal").modal('show');
+        });
+    });
+</script>
 
-<div th:id="Modal" class="modal fade">
-    <div class="modal-dialog">
-        <div class="modal-content">
+<script type="text/javascript">
+    function putValues(id, login, pas) {
+        $('#id-input-edit-hidden').val(id);
+        $('#login-input-edit').val(login);
+        $('#pass-input-edit').val(pas);
+    }
 
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                <h4 class="modal-title">Edit user</h4>
-            </div>
-
-            <div class="modal-body">
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-lg-6 col-lg-offset-3">
-
-                            <form id="edit-form"
-                                  action="${pageContext.servletContext.contextPath}/admin/editUser"
-                                  method="POST">
-                                <div class="form-group text-center edit-form">
-
-                                    <input type="hidden" id="id-input-edit-hidden" name="id">
-
-                                    <label for="login-input-edit">Login</label>
-                                    <input id="login-input-edit" class="form-control" type="text" name="login"
-                                           required>
-
-                                    <label for="pass-input-edit">Password</label>
-                                    <input id="pass-input-edit" class="form-control" type="text" name="password"
-                                           required>
-
-                                    <label for="roled">Roles</label>
-                                    <select name="roled" id="roled" class="selectpicker" multiple="multiple">
-                                        <c:forEach var="role" items="${roles}">
-                                            <option value=${role.id}>${role.role}</option>
-                                        </c:forEach>
-                                    </select>
-
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal"><i
-                        class="glyphicon glyphicon-remove"></i>Close
-                </button>
-                <button id="edit-submit" class="btn btn-primary"><i
-                        class="glyphicon glyphicon-pencil"></i>Edit User
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
+    $(document).ready(function () {
+        $("#edit-submit").click(function () {
+            $("#edit-form").submit();
+        })
+    })
+</script>
 </body>
 </html>
