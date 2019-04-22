@@ -40,7 +40,7 @@ public class AuthSuccessHandler implements AuthenticationSuccessHandler {
     private String determineTargetUrl(Authentication authentication) {
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
         if (authorities.contains(new Role("ADMIN"))) {
-            return "/admin/uList";
+            return "/admin";
         } else if (authorities.contains(new Role("USER"))) {
             return "/user";
         } else {

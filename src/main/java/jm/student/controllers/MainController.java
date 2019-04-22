@@ -10,7 +10,6 @@ import jm.student.service.abstraction.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -29,15 +28,6 @@ public class MainController {
     private MainController(UserService userService, RoleService roleService) {
         this.userService = userService;
         this.roleService = roleService;
-    }
-
-    @GetMapping("/users")
-    public ModelAndView getUserPage(ModelAndView model) {
-        User user = userService.getById(Long.valueOf(1));
-        model.setViewName("hello");
-        String password = user.getLogin();
-        model.addObject("name", password);
-        return model;
     }
 
     @GetMapping("/")
@@ -70,7 +60,7 @@ public class MainController {
         return model;
     }
 
-    @GetMapping("/admin/uList")
+    @GetMapping("/admin")
     public ModelAndView usersListPage(@ModelAttribute ModelAndView model) {
         List<User> users = userService.getAllUsers();
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -83,19 +73,25 @@ public class MainController {
     @GetMapping("/user")
     public ModelAndView userPage(@ModelAttribute ModelAndView model) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        System.out.println(user.isAdmin());
         model.addObject("roles", roleService.getAllRoles());
         model.addObject("user", user);
         return model;
     }
 
-    @GetMapping("/editUser")
+    @GetMapping("/example")
+    public ModelAndView examPage(@ModelAttribute ModelAndView model) {
+        return model;
+    }
+
+    @GetMapping("/admin/editUser")
     public ModelAndView editUserPage(@ModelAttribute ModelAndView model, @RequestParam("id") Long id) {
         model.addObject("roles", roleService.getAllRoles());
         model.addObject("user", userService.getById(id));
         return model;
     }
 
-    @PostMapping("/editUser")
+    @PostMapping("/admin/editUser")
     public String editUser(@ModelAttribute User user, @RequestParam(value = "roled", required = false) Long[] idRoles) {
         Set<Role> roles = new HashSet<>();
 
@@ -107,13 +103,13 @@ public class MainController {
 
         user.setRoles(roles);
         userService.editUser(user);
-        return "redirect:/user";
+        return "redirect:/admin";
     }
 
     @GetMapping("/admin/deleteUser/{id}")
     public String deleteUser(@PathVariable("id") Long id) {
         userService.removeUser(id);
-        return "redirect:/admin/uList";
+        return "redirect:/admin";
     }
 
     @GetMapping("/admin/addUser")
@@ -133,6 +129,6 @@ public class MainController {
         user.setRoles(roles);
         userService.addUser(user);
 
-        return "redirect:/admin/uList";
+        return "redirect:/admin";
     }
 }

@@ -1,0 +1,36 @@
+body {
+    background: #9ebfee;
+}
+
+.left-menu {
+    background: lightgoldenrodyellow;
+    padding: 20px 0 0 0;
+    min-height: 94vh;
+}
+
+
+.left-menu ul li {
+    margin: 0px;
+}
+
+.left-menu ul li a {
+    border-radius: 0px;
+}
+
+.nav-content {
+    margin-bottom: -1px;
+}
+
+.edit-form label {
+    font-weight: 100;
+    font-size: 20px;
+    margin: 10px 0 10px 0;
+}
+
+.add-user-button {
+    margin-top: 30px;
+}
+
+.empty-block {
+    height: 88px;
+}

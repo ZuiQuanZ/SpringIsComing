@@ -10,10 +10,14 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.2/css/bootstrap-select.min.css"/>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.2/js/bootstrap-select.min.js"></script>
-    <style>
+    <script src="modal.js" ></script>
+    <link rel="stylesheet" href="mystyle.css"  />
+
+   <!-- <style>
         body {
             background: #9ebfee;
         }
@@ -46,7 +50,7 @@
         .add-user-button {
             margin-top: 30px;
         }
-    </style>
+    </style>-->
 
 </head>
 
@@ -66,11 +70,12 @@
 
                     <div class="collapse navbar-collapse navbar-collapse">
                         <ul class="nav navbar-nav">
-                            <li class=""><a href="#admin-page" aria-controls="admin-page" role="tab"
+
+                            <li ><a href="#admin-page" aria-controls="admin-page" role="tab"
                                             data-toggle="tab"><span class="glyphicon glyphicon-list"></span>
                                 Users list</a>
                             </li>
-                            <li class=""><a th:href="@{/user}"><span class="glyphicon glyphicon-user"></span> User
+                            <li th:if="${admin.isUser()}"><a th:href="@{/user}"><span class="glyphicon glyphicon-user"></span> User
                             </a>
                             </li>
 
@@ -103,6 +108,7 @@
 
                     <ul class="nav nav-tabs nav-content" role="tablist">
                         <li id="user-table-nav" class="active">
+
                             <a href="#user-panel" aria-controls="user-panel" role="tab" data-toggle="tab">Users
                                 table</a>
                         </li>
@@ -140,9 +146,9 @@
                                                 <td th:text="${user.roles}"></td>
                                                 <td>
                                                     <div class="btn-group-vertical btn-group-xs">
-                                                        <a data-toggle="modal" data-target="#myModal"
-                                                           th:attr="data-id=${user.id}"
-                                                           class="btn btn-default"><i
+                                                        <a
+                                                           th:onclick="'showModal(' +${user.id}+',\''+${user.login}+'\',\''+${user.password} +'\')'"
+                                                            class="btn btn-default" ><i
                                                                 class="glyphicon glyphicon-pencil"></i>Edit</a>
                                                         <a class="btn btn-primary"
                                                            th:href="@{/admin/deleteUser/__${user.id}__}"><i
@@ -250,19 +256,16 @@
                             <div class="col-lg-6 col-lg-offset-3">
 
                                 <form id="edit-form"
-                                      th:action="@{/editUser}"
+                                      th:action="@{/admin/editUser}"
                                       method="POST">
                                     <div class="form-group text-center edit-form">
-                                        <script type="text/javascript">
-                                            jQuery(document).ready(function () {
-                                                    putValues(attr('data-id'), $(this).attr('data-id') , $(this).attr("data-id"));
-                                            });
-                                        </script>
-                                        <input type="hidden" id="id-input-edit-hidden" name="id"/>
+
+                                        <script th:inline="javascript"></script>
+                                        <input type="hidden" id="id-input-edit-hidden" name="id" />
 
                                         <label for="login-input-edit">Login</label>
                                         <input id="login-input-edit" class="form-control" type="text" name="login"
-                                               required="required"/>
+                                               required="required" />
 
                                         <label for="pass-input-edit">Password</label>
                                         <input id="pass-input-edit" class="form-control" type="text" name="password"
@@ -295,20 +298,6 @@
         </div>
     </div>
 </div>
-
-<script type="text/javascript">
-    function putValues(id, login, pas) {
-        $('#id-input-edit-hidden').val(id);
-        $('#login-input-edit').val(login);
-        $('#pass-input-edit').val(pas);
-    }
-
-    $(document).ready(function () {
-        $("#edit-submit").click(function () {
-            $("#edit-form").submit();
-        })
-    })
-</script>
 
 </body>
 </html>

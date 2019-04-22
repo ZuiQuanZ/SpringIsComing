@@ -1,5 +1,6 @@
 package jm.student.models;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -76,6 +77,14 @@ public class User implements UserDetails {
 
     public Set<Role> getRoles() {
         return roles;
+    }
+
+    public Boolean isAdmin () {
+        return ( roles.contains(new Role("ADMIN")) ? true : false );
+    }
+
+    public Boolean isUser () {
+        return ( roles.contains(new Role("USER")) ? true : false );
     }
 
     public void setRoles(Set<Role> roles) {
