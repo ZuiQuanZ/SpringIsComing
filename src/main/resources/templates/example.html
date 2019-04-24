@@ -17,7 +17,8 @@
 <div class="container">
     <div class="text-center">
 
-        <h1>Thymeleaf Layouts</h1>
+        <h1>Thymeleaf <span th:text="${user.login}"></span> Layouts</h1>
+        <button id="RestGet">GET</button>
 
         <div class="lead" th:insert="https://www.thymeleaf.org :: section.description">
             Welcome to the Spring MVC Quickstart application!
@@ -37,6 +38,27 @@
         })
     });
 </script>
+<script type="text/javascript">
+    /* Fill in modal with content loaded with Ajax */
+    $(document).ready(function () {
+        $('#RestGet').on('click', function () {
+            $.ajax({
+                url:  'http:/localhost/getUser',
+                type: 'GET',
+                dataType: 'json',
+                async: true,
+                success: function(result) {
+                    $('#id-input-edit-hidden').val(result.id);
+                    $('#login-input-edit').val(result.login);
+                    $('#pass-input-edit').val(result.password);
+                                   }
+            })
+            $("#myModal").modal();
+        })
+    });
+
+</script>
+
 <!-- Modal -->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -49,6 +71,13 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
             </div>
+            <label for="login-input-edit">Login</label>
+            <p id="login-input-edit" />
+
+            <label for="pass-input-edit">Password</label>
+            <input id="pass-input-edit" class="form-control" type="text" name="password"
+                   required="required"/>
+
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->

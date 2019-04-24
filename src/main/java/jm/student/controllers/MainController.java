@@ -30,6 +30,15 @@ public class MainController {
         this.roleService = roleService;
     }
 
+    @GetMapping("/users")
+    public ModelAndView getUserPage(ModelAndView model) {
+        User user = userService.getById(Long.valueOf(1));
+        model.setViewName("hello");
+        String password = user.getLogin();
+        model.addObject("name", password);
+        return model;
+    }
+
     @GetMapping("/")
     public String toLoginPage() {
         return "redirect:/login";
@@ -60,11 +69,13 @@ public class MainController {
         return model;
     }
 
+    //todo: реализовать через рест
     @GetMapping("/admin")
     public ModelAndView usersListPage(@ModelAttribute ModelAndView model) {
         List<User> users = userService.getAllUsers();
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        model.addObject("admin", user);
+
+        model.addObject("admin", userService.getById(user.getId()));
         model.addObject("users", users);
         model.addObject("roles", roleService.getAllRoles());
         return model;
@@ -73,17 +84,20 @@ public class MainController {
     @GetMapping("/user")
     public ModelAndView userPage(@ModelAttribute ModelAndView model) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        System.out.println(user.isAdmin());
         model.addObject("roles", roleService.getAllRoles());
-        model.addObject("user", user);
+        model.addObject("user", userService.getById(user.getId()));
         return model;
     }
 
     @GetMapping("/example")
-    public ModelAndView examPage(@ModelAttribute ModelAndView model) {
-        return model;
-    }
+     public ModelAndView examPage(@ModelAttribute ModelAndView model) {
+         model.addObject(userService.getById(Long.valueOf(1)));
+         return model;
+     }
 
+
+
+    // todo: реализовать через рест
     @GetMapping("/admin/editUser")
     public ModelAndView editUserPage(@ModelAttribute ModelAndView model, @RequestParam("id") Long id) {
         model.addObject("roles", roleService.getAllRoles());
@@ -91,6 +105,7 @@ public class MainController {
         return model;
     }
 
+    // todo: реализовать через рест
     @PostMapping("/admin/editUser")
     public String editUser(@ModelAttribute User user, @RequestParam(value = "roled", required = false) Long[] idRoles) {
         Set<Role> roles = new HashSet<>();
@@ -106,18 +121,14 @@ public class MainController {
         return "redirect:/admin";
     }
 
+    // todo: реализовать через рест
     @GetMapping("/admin/deleteUser/{id}")
     public String deleteUser(@PathVariable("id") Long id) {
         userService.removeUser(id);
-        return "redirect:/admin";
+        return "redirect:/admin/uList";
     }
 
-    @GetMapping("/admin/addUser")
-    public ModelAndView addUserPage(@ModelAttribute ModelAndView model) {
-        model.addObject("roles", roleService.getAllRoles());
-        return model;
-    }
-
+    // todo: реализовать через рест
     @PostMapping("/admin/addUser")
     public String addUser(@ModelAttribute User user, @RequestParam(value = "rol", required = false) Long[] idRoles) {
         Set<Role> roles = new HashSet<>();
