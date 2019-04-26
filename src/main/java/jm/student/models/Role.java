@@ -15,11 +15,11 @@ public class Role implements GrantedAuthority {
     @Column(unique = true)
     private String role;
 
-    @ManyToMany(fetch = FetchType.EAGER, targetEntity = User.class)
-    @JoinTable(name = "security",
-            joinColumns = {@JoinColumn(name = "role_id")},
-            inverseJoinColumns = {@JoinColumn(name = "user_id")})
-    private List<User> users;
+//    @ManyToMany(fetch = FetchType.LAZY, targetEntity = User.class)
+//    @JoinTable(name = "security",
+//            joinColumns = {@JoinColumn(name = "role_id")},
+//            inverseJoinColumns = {@JoinColumn(name = "user_id")})
+//    private List<User> users;
 
     public Role() {
     }
@@ -44,13 +44,13 @@ public class Role implements GrantedAuthority {
         this.role = role;
     }
 
-    public List<User> getUsers() {
-        return users;
-    }
-
-    public void setUsers(List<User> users) {
-        this.users = users;
-    }
+//    public List<User> getUsers() {
+//        return users;
+//    }
+//
+//    public void setUsers(List<User> users) {
+//        this.users = users;
+//    }
 
     @Override
     public String getAuthority() {

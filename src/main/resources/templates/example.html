@@ -10,21 +10,17 @@
 
     <script type="text/javascript" th:src="@{//code.jquery.com/jquery-2.0.3.min.js}"></script>
     <script type="text/javascript" th:src="@{//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.js}"></script>
-
+    <script src="examp.js" ></script>
 </head>
 <body>
 
 <div class="container">
     <div class="text-center">
 
-        <h1>Thymeleaf <span th:text="${user.login}"></span> Layouts</h1>
-        <button id="RestGet">GET</button>
-
-        <div class="lead" th:insert="https://www.thymeleaf.org :: section.description">
-            Welcome to the Spring MVC Quickstart application!
-            Get started quickly by signing up.
-        </div>
-
+        <h1>Hello <span th:text="${user.login}"></span> </h1>
+        <button type="button" onclick="RestGet()">Login</button>
+        <button type="button" th:onclick="'ResponseGet('+${user.id}+')'">Resp</button>
+        <button type="button" onclick="UserGet(1,'petya','petya')">User</button>
         <p>
             <a id="signup" class="btn btn-success btn-lg">Sign up</a>
         </p>
@@ -38,26 +34,6 @@
         })
     });
 </script>
-<script type="text/javascript">
-    /* Fill in modal with content loaded with Ajax */
-    $(document).ready(function () {
-        $('#RestGet').on('click', function () {
-            $.ajax({
-                url:  'http:/localhost/getUser',
-                type: 'GET',
-                dataType: 'json',
-                async: true,
-                success: function(result) {
-                    $('#id-input-edit-hidden').val(result.id);
-                    $('#login-input-edit').val(result.login);
-                    $('#pass-input-edit').val(result.password);
-                                   }
-            })
-            $("#myModal").modal();
-        })
-    });
-
-</script>
 
 <!-- Modal -->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -66,20 +42,22 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h4 class="modal-title" id="myModalLabel">Signup</h4>
+
             </div>
+            <p id="id-resp"></p>
             <div class="modal-body" id="myModalBody">Lorem ipsum</div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
             </div>
-            <label for="login-input-edit">Login</label>
-            <p id="login-input-edit" />
+            <!--<label for="login-input-edit">Login</label>-->
+            <!--<p id="login-input-edit" type="text"></p>-->
 
-            <label for="pass-input-edit">Password</label>
-            <input id="pass-input-edit" class="form-control" type="text" name="password"
-                   required="required"/>
+
 
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+
+
 </body>
 </html>
