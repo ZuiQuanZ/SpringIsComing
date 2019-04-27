@@ -17,7 +17,7 @@
 
 function ResponseGet(id) {
     $.ajax({
-        type: 'GET',
+        //type: 'GET',
         url: '/getResp?id=' + id,
         //dataType: 'json',
         error: function (jqXHR, textStatus, errorThrown) {
@@ -33,11 +33,11 @@ function ResponseGet(id) {
     });
 }
 
-function UserGet(id, login, password) {
+function printUser(id, login) {
     $.ajax({
-        type: 'GET',
-        url: '/getUser',
-        data: {id: id, login: login, password: password},
+        //type: 'GET',
+        url: '/printUser',
+        data: {id: id ,login: login},
         error: function (jqXHR, textStatus, errorThrown) {
             alert(jqXHR.responseText);
         },
@@ -45,5 +45,26 @@ function UserGet(id, login, password) {
             alert("hey");
         }
     });
+}
 
+function getUsers() {
+    $.ajax({
+        url: '/getUsers',
+        //type: 'get',
+        error: function(message) {
+            console.log(message);
+        },
+        success: function (data) {
+            var table = document.getElementById("users_table");
+            for (var i = 0; i < data.length; i++) {
+                var row = table.insertRow(i + 1);
+                var cellId = row.insertCell(0);
+                var cellLogin = row.insertCell(1);
+                var cellPassword = row.insertCell(2);
+                cellId.innerHTML = data[i]["id"];
+                cellLogin.innerHTML = data[i]["login"];
+                cellPassword.innerHTML = data[i]['password'];
+            }
+        }
+    })
 }

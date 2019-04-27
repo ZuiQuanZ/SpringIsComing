@@ -14,43 +14,43 @@
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.2/css/bootstrap-select.min.css"/>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.2/js/bootstrap-select.min.js"></script>
-    <script src="modal.js" ></script>
-    <link rel="stylesheet" href="mystyle.css"  />
+    <script src="modal.js"></script>
+    <link rel="stylesheet" href="mystyle.css"/>
 
-   <!-- <style>
-        body {
-            background: #9ebfee;
-        }
+    <!-- <style>
+         body {
+             background: #9ebfee;
+         }
 
-        .left-menu {
-            background: lightgoldenrodyellow;
-            padding: 20px 0 0 0;
-            min-height: 94vh;
-        }
+         .left-menu {
+             background: lightgoldenrodyellow;
+             padding: 20px 0 0 0;
+             min-height: 94vh;
+         }
 
 
-        .left-menu ul li {
-            margin: 0px;
-        }
+         .left-menu ul li {
+             margin: 0px;
+         }
 
-        .left-menu ul li a {
-            border-radius: 0px;
-        }
+         .left-menu ul li a {
+             border-radius: 0px;
+         }
 
-        .nav-content {
-            margin-bottom: -1px;
-        }
+         .nav-content {
+             margin-bottom: -1px;
+         }
 
-        .edit-form label {
-            font-weight: 100;
-            font-size: 20px;
-            margin: 10px 0 10px 0;
-        }
+         .edit-form label {
+             font-weight: 100;
+             font-size: 20px;
+             margin: 10px 0 10px 0;
+         }
 
-        .add-user-button {
-            margin-top: 30px;
-        }
-    </style>-->
+         .add-user-button {
+             margin-top: 30px;
+         }
+     </style>-->
 
 </head>
 
@@ -71,11 +71,12 @@
                     <div class="collapse navbar-collapse navbar-collapse">
                         <ul class="nav navbar-nav">
 
-                            <li ><a href="#admin-page" aria-controls="admin-page" role="tab"
-                                            data-toggle="tab"><span class="glyphicon glyphicon-list"></span>
+                            <li><a href="#admin-page" aria-controls="admin-page" role="tab"
+                                   data-toggle="tab"><span class="glyphicon glyphicon-list"></span>
                                 Users list</a>
                             </li>
-                            <li th:if="${admin.isUser()}"><a th:href="@{/user}"><span class="glyphicon glyphicon-user"></span> User
+                            <li th:if="${admin.isUser()}"><a th:href="@{/user}"><span
+                                    class="glyphicon glyphicon-user"></span> User
                             </a>
                             </li>
 
@@ -147,12 +148,15 @@
                                                 <td>
                                                     <div class="btn-group-vertical btn-group-xs">
                                                         <a
-                                                           th:onclick="'showModal(' +${user.id}+',\''+${user.login}+'\',\''+${user.password} +'\')'"
-                                                            class="btn btn-default" ><i
+                                                                th:onclick="'showModal(' +${user.id}+',\''+${user.login}+'\',\''+${user.password} +'\')'"
+                                                                class="btn btn-default"><i
                                                                 class="glyphicon glyphicon-pencil"></i>Edit</a>
                                                         <a class="btn btn-primary"
                                                            th:href="@{/admin/deleteUser/__${user.id}__}"><i
                                                                 class="glyphicon glyphicon-trash"></i>Delete</a>
+                                                        <a class="btn btn-success"
+                                                           th:onclick="'delRest('+${user.id}+')'"><i
+                                                                class="glyphicon glyphicon-trash"></i>DelRest</a>
                                                     </div>
 
                                                 </td>
@@ -174,38 +178,39 @@
                                             <div class="row">
                                                 <div class="col-lg-6 col-lg-offset-3">
 
-                                                    <form th:action="@{/admin/addUser}"
-                                                          method="POST">
-                                                        <div class="form-group text-center edit-form">
+                                                    <!-- <form th:action="@{/admin/addUser}"
+                                                          method="POST"> -->
+                                                    <div class="form-group text-center edit-form">
 
 
-                                                            <label for="login-input-add">Login</label>
-                                                            <input id="login-input-add" class="form-control"
-                                                                   type="text"
-                                                                   placeholder="Login" name="login"/>
+                                                        <label for="login-input-add">Login</label>
+                                                        <input id="login-input-add" class="form-control"
+                                                               type="text"
+                                                               placeholder="Login" name="login"/>
 
-                                                            <label for="pass-input-add">Password</label>
-                                                            <input id="pass-input-add" class="form-control"
-                                                                   type="password" placeholder="Password"
-                                                                   name="password"/>
+                                                        <label for="pass-input-add">Password</label>
+                                                        <input id="pass-input-add" class="form-control"
+                                                               type="password" placeholder="Password"
+                                                               name="password"/>
 
-                                                            <label for="rol">Roles</label>
-                                                            <select name="rol" id="rol" class="selectpicker"
-                                                                    multiple="multiple">
-                                                                th:each="role : ${roles}"
-                                                                <option th:each="role : ${roles}"
-                                                                        th:value="${role.id}"><span
-                                                                        th:text="${role.role}"></span></option>
+                                                        <label for="rol">Roles</label>
+                                                        <select name="rol" id="rol" class="selectpicker"
+                                                                multiple="multiple">
+                                                            th:each="role : ${roles}"
+                                                            <option th:each="role : ${roles}"
+                                                                    th:value="${role.id}"><span
+                                                                    th:text="${role.role}"></span></option>
 
-                                                            </select>
+                                                        </select>
 
-                                                            <button type="submit"
-                                                                    class="btn btn-default add-user-button btn-lg"><span
-                                                                    class="glyphicon glyphicon-plus"></span>
-                                                                Add new user
-                                                            </button>
-                                                        </div>
-                                                    </form>
+                                                        <button type="submit" onclick="addUser(document.getElementById('login-input-add').value,
+        document.getElementById('pass-input-add').value)"
+                                                                class="btn btn-default add-user-button btn-lg"><span
+                                                                class="glyphicon glyphicon-plus"></span>
+                                                            Add new user
+                                                        </button>
+                                                    </div>
+                                                    <!-- </form>-->
                                                 </div>
                                             </div>
                                         </div>
@@ -261,11 +266,11 @@
                                     <div class="form-group text-center edit-form">
 
 
-                                        <input type="hidden" id="id-input-edit-hidden" name="id" />
+                                        <input type="hidden" id="id-input-edit-hidden" name="id"/>
 
                                         <label for="login-input-edit">Login</label>
                                         <input id="login-input-edit" class="form-control" type="text" name="login"
-                                               required="required" />
+                                               required="required"/>
 
                                         <label for="pass-input-edit">Password</label>
                                         <input id="pass-input-edit" class="form-control" type="text" name="password"

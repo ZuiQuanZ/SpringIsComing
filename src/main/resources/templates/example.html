@@ -8,24 +8,35 @@
     <link th:href="@{https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css}"
           rel="stylesheet" media="screen"/>
 
-    <script type="text/javascript" th:src="@{//code.jquery.com/jquery-2.0.3.min.js}"></script>
+    <script type="text/javascript" th:src="@{//code.jquery.com/jquery-2.1.1.min.js}"></script>
+    <!--<script language="javascript" type="text/javascript"
+            src="http://code.jquery.com/jquery-2.1.1.min.js"/> -->
     <script type="text/javascript" th:src="@{//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.js}"></script>
     <script src="examp.js" ></script>
 </head>
-<body>
+<body onload="getUsers()">
 
 <div class="container">
     <div class="text-center">
 
         <h1>Hello <span th:text="${user.login}"></span> </h1>
-        <button type="button" onclick="RestGet()">Login</button>
+        <button type="button" onclick="getUsers()">Table</button>
         <button type="button" th:onclick="'ResponseGet('+${user.id}+')'">Resp</button>
-        <button type="button" onclick="UserGet(1,'petya','petya')">User</button>
+        <!--<button type="button" th:onclick="'printUser('+${user.id}+',\''+{user.login}+'\')'">User</button>-->
         <p>
             <a id="signup" class="btn btn-success btn-lg">Sign up</a>
         </p>
     </div>
 </div>
+
+
+
+<table id="users_table" border="2" cellpadding="5">
+    <th>Id </th>
+    <th>Login </th>
+    <th>Password</th>
+</table>
+
 <script type="text/javascript">
     /* Fill in modal with content loaded with Ajax */
     $(document).ready(function () {
