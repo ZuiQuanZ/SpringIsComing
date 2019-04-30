@@ -40,6 +40,7 @@ function addUser(login,password) {
         success: function() {
             // todo: попробовать document
             window.location = '/admin';
+            //history.back();
         }
     });
 

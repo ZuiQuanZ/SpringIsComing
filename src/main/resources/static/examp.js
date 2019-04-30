@@ -37,7 +37,7 @@ function printUser(id, login) {
     $.ajax({
         //type: 'GET',
         url: '/printUser',
-        data: {id: id ,login: login},
+        data: {id: id, login: login},
         error: function (jqXHR, textStatus, errorThrown) {
             alert(jqXHR.responseText);
         },
@@ -51,7 +51,7 @@ function getUsers() {
     $.ajax({
         url: '/getUsers',
         //type: 'get',
-        error: function(message) {
+        error: function (message) {
             console.log(message);
         },
         success: function (data) {
@@ -61,9 +61,13 @@ function getUsers() {
                 var cellId = row.insertCell(0);
                 var cellLogin = row.insertCell(1);
                 var cellPassword = row.insertCell(2);
-                cellId.innerHTML = data[i]["id"];
+                var cellRoles = row.insertCell(3)
+                cellId.innerHTML = data[i].id;
                 cellLogin.innerHTML = data[i]["login"];
                 cellPassword.innerHTML = data[i]['password'];
+                for (var j = 0; j < data[i].roles.length; j++) {
+                    cellRoles.innerHTML = data[i].roles[j]['role'];
+                }
             }
         }
     })

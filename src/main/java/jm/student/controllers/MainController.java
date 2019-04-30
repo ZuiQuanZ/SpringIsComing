@@ -125,7 +125,7 @@ public class MainController {
     @GetMapping("/admin/deleteUser/{id}")
     public String deleteUser(@PathVariable("id") Long id) {
         userService.removeUser(id);
-        return "redirect:/admin/uList";
+        return "redirect:/admin";
     }
 
     // todo: реализовать через рест
