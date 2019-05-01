@@ -72,21 +72,55 @@ function delRest(id) {
 // }
 
 //3rd
+// function addUser(login, password) {
+//     var idRoles = [];
+//     idRoles = $('#rol').val();
+//
+//     var user = { login:login , password: password , roles: idRoles};
+//     $.ajax({
+//         type: 'post',
+//         url: '/addUser',
+//         data: JSON.stringify(user),
+//         contentType: "application/json; charset=utf-8",
+//         dataType: "json",
+//         error: function (message) {
+//             console.log(message);
+//             //ajaxGet();
+//             //$('#myTab a[href="#user-panel"]').tab('show');
+//         },
+//         success: function () {
+//             ajaxGet();
+//             $('#myTab a[href="#user-panel"]').tab('show');
+//         }
+//     });
+//
+// }
+
+//Dima Sensei
 function addUser(login, password) {
     var idRoles = [];
     idRoles = $('#rol').val();
 
-    var user = { login:login , password: password , roles: idRoles};
+    var roles = [];
+
+    for(var i = 0; i < idRoles.length; i++) {
+        roles[i] = {
+            id : i+1,
+            role : idRoles[i]
+        };
+    }
+
+    var user = { login:login , password: password , roles: roles};
     $.ajax({
         type: 'post',
         url: '/addUser',
-        data: JSON.stringify(user),
         contentType: "application/json; charset=utf-8",
         dataType: "json",
+        data: JSON.stringify(user),
         error: function (message) {
             console.log(message);
-            //ajaxGet();
-            //$('#myTab a[href="#user-panel"]').tab('show');
+            ajaxGet();
+            $('#myTab a[href="#user-panel"]').tab('show');
         },
         success: function () {
             ajaxGet();
@@ -95,7 +129,6 @@ function addUser(login, password) {
     });
 
 }
-
 
 $(document).ready(function() {
     ajaxGet();

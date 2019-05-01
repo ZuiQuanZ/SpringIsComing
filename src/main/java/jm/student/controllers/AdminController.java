@@ -49,16 +49,8 @@ public class AdminController {
         System.out.println(id + ' ' + login);
     }
 
-        @PostMapping(path = "/addUser", consumes="application/json")
-    public void addUser(/*User user, @RequestParam(value="idRoles" , required = false)  Long[] idRoles*/@RequestBody User user){
-
-//        Set<Role> roles = new HashSet<>();
-//        if (idRoles != null) {
-//            for (Long id : idRoles) {
-//                roles.add(roleService.getRoleById(id));
-//            }
-//        }
-//        user.setRoles(roles);
+    @PostMapping(path = "/addUser", consumes = "application/json")
+    public void addUser(@RequestBody User user) {
         userService.addUser(user);
     }
 
