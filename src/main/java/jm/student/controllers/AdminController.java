@@ -49,8 +49,9 @@ public class AdminController {
         System.out.println(id + ' ' + login);
     }
 
-    //    @PostMapping("/addUser")
-//    public void addUser(User user, @RequestParam(value="idRoles" , required = false)  Long[] idRoles){
+        @PostMapping(path = "/addUser", consumes="application/json")
+    public void addUser(/*User user, @RequestParam(value="idRoles" , required = false)  Long[] idRoles*/@RequestBody User user){
+
 //        Set<Role> roles = new HashSet<>();
 //        if (idRoles != null) {
 //            for (Long id : idRoles) {
@@ -58,13 +59,13 @@ public class AdminController {
 //            }
 //        }
 //        user.setRoles(roles);
-//        userService.addUser(user);
-//    }
-
-    @PostMapping("/addUser")
-    public void addUser( @RequestBody( required = false) Long[] idRoles) {
-        System.out.println(idRoles[0]);
+        userService.addUser(user);
     }
+
+//    @PostMapping("/addUser")
+//    public void addUser( @RequestBody( required = false) Long[] idRoles) {
+//        System.out.println(idRoles[0]);
+//    }
 
     @GetMapping("/getUsers")
     public List<User> getUsers() {
