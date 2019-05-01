@@ -54,7 +54,7 @@
 
 </head>
 
-<body>
+<body >
 <div class="container-fluid">
     <div class="row">
         <header role="banner" id="top" class="navbar navbar-static-top">
@@ -107,7 +107,7 @@
                 <div role="tabpanel" class="tab-pane active" id="admin-page">
                     <h1>Admin panel</h1>
 
-                    <ul class="nav nav-tabs nav-content" role="tablist">
+                    <ul id="myTab" class="nav nav-tabs nav-content" role="tablist">
                         <li id="user-table-nav" class="active">
 
                             <a href="#user-panel" aria-controls="user-panel" role="tab" data-toggle="tab">Users
@@ -126,7 +126,8 @@
                                 <div class="tab-content">
                                     <div class="panel-body">
                                         <h4>All users</h4>
-                                        <table class="table table-striped table-responsive table-hover">
+                                        <table class="table table-striped table-responsive table-hover" id="users_table" >
+                                            <!--<script> $('#users_table').empty() </script>-->
                                             <thead>
                                             <tr>
                                                 <th>ID</th>
@@ -138,8 +139,7 @@
                                             </tr>
                                             </thead>
                                             <tbody>
-
-                                            <tr th:each="user : ${users}">
+                                            <!--<tr th:each="user : ${users}">
 
                                                 <td th:text="${user.id}">...</td>
                                                 <td th:text="${user.login}">...</td>
@@ -160,7 +160,7 @@
                                                     </div>
 
                                                 </td>
-                                            </tr>
+                                            </tr> -->
                                             </tbody>
                                         </table>
                                     </div>
@@ -196,7 +196,6 @@
                                                         <label for="rol">Roles</label>
                                                         <select name="rol" id="rol" class="selectpicker"
                                                                 multiple="multiple">
-                                                            th:each="role : ${roles}"
                                                             <option th:each="role : ${roles}"
                                                                     th:value="${role.id}"><span
                                                                     th:text="${role.role}"></span></option>
@@ -279,7 +278,7 @@
                                         <label for="roled">Roles</label>
                                         <select name="roled" id="roled" class="selectpicker"
                                                 multiple="multiple">
-                                            th:each="role : ${roles}"
+
                                             <option th:each="role : ${roles}"
                                                     th:value="${role.id}"><span th:text="${role.role}"></span></option>
 

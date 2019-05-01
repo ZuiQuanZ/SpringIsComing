@@ -6,10 +6,7 @@ import jm.student.service.abstraction.RoleService;
 import jm.student.service.abstraction.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashSet;
 import java.util.List;
@@ -51,7 +48,7 @@ public class AdminController {
     }
 
     @PostMapping("/addUser")
-    public void addUser(User user , @RequestParam(value = "rol", required = false) Long[] idRoles){
+    public void addUser(User user, @RequestBody(required = false)  Long[] idRoles){
         Set<Role> roles = new HashSet<>();
         if (idRoles != null) {
             for (Long id : idRoles) {
@@ -60,9 +57,11 @@ public class AdminController {
         }
         user.setRoles(roles);
         userService.addUser(user);
+        System.out.println(idRoles[0]);
     }
 
     @GetMapping("/getUsers")
-    public List<User> getUsers(){ return userService.getAllUsers(); }
+    public List<User> getUsers(){
+        return userService.getAllUsers(); }
 
 }
