@@ -29,17 +29,39 @@ function delRest(id) {
 
 }
 
+// function addUser(login, password) {
+//     var idRoles = [];
+//     idRoles = $('#rol').val();
+//     $.ajax({
+//         type: 'post',
+//         url: '/addUser',
+//         data: {login: login, password:password},
+//         error: function (message) {
+//             console.log(message);
+//             ajaxGet();
+//             $('#myTab a[href="#user-panel"]').tab('show');
+//         },
+//         success: function () {
+//             ajaxGet();
+//             $('#myTab a[href="#user-panel"]').tab('show');
+//         }
+//     });
+//
+// }
+
 function addUser(login, password) {
     var idRoles = [];
     idRoles = $('#rol').val();
     $.ajax({
         type: 'post',
         url: '/addUser',
+        data: JSON.stringify(idRoles),
         contentType: "application/json; charset=utf-8",
         dataType: "json",
-        data: {login: login, password:password, JSON:stringify(idRoles)},
         error: function (message) {
             console.log(message);
+            ajaxGet();
+            $('#myTab a[href="#user-panel"]').tab('show');
         },
         success: function () {
             ajaxGet();
