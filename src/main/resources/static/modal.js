@@ -6,17 +6,67 @@ function showModal(id, login, password) {
     $('#myModal').modal();
 }
 
-
+function showUser()
+{
+    $.ajax({
+        type:'get',
+        url:'/getUser',
+        success: function (user) {
+            document.getElementById('right').innerHTML(user.login);
+        },
+        error: function (message) {
+            console.log(message);
+        }
+})
+}
 $(document).ready(function () {
     $("#edit-submit").click(function () {
-        $("#edit-form").submit();
+        var idRoles = [];
+        idRoles = $('#roled').val();
+        var logRoles = [];
+        logRoles = $('#roled').text();
+        var roles = [];
+
+        for (var i = 0; i < idRoles.length; i++) {
+            roles[i] = {
+                id: idRoles[i],
+                role: logRoles[i]
+            };
+        }
+        for (var i = 0; i < idRoles.length; i++) {
+            roles[i] = {
+                id: idRoles[i],
+                role: logRoles[i]
+            };
+        }
+
+        var user = {
+            id: $('#id-input-edit-hidden').val(),
+            login: $('#login-input-edit').val(),
+            password: $('#pass-input-edit').val(),
+            roles: roles
+        };
+        $.ajax({
+            type: 'post',
+            url: '/editUser',
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            data: JSON.stringify(user),
+            error: function (message) {
+                console.log(message);
+                $("#edit-form").submit();
+            },
+            success: function () {
+                $("#edit-form").submit();
+            }
+        });
     })
 })
 
 function delRest(id) {
     $.ajax({
         type: 'get',
-        url: '/delRest',
+        url: '/admin/delRest',
         data: {id: id},
         error: function (message) {
             console.log(message);
@@ -29,88 +79,23 @@ function delRest(id) {
 
 }
 
-// function addUser(login, password) {
-//     var idRoles = [];
-//     idRoles = $('#rol').val();
-//     $.ajax({
-//         type: 'post',
-//         url: '/addUser',
-//         data: {login: login, password:password},
-//         error: function (message) {
-//             console.log(message);
-//             ajaxGet();
-//             $('#myTab a[href="#user-panel"]').tab('show');
-//         },
-//         success: function () {
-//             ajaxGet();
-//             $('#myTab a[href="#user-panel"]').tab('show');
-//         }
-//     });
-//
-// }
-
-// function addUser(login, password) {
-//     var idRoles = [];
-//     idRoles = $('#rol').val();
-//     $.ajax({
-//         type: 'post',
-//         url: '/addUser',
-//         data: JSON.stringify(idRoles),
-//         contentType: "application/json; charset=utf-8",
-//         dataType: "json",
-//         error: function (message) {
-//             console.log(message);
-//             ajaxGet();
-//             $('#myTab a[href="#user-panel"]').tab('show');
-//         },
-//         success: function () {
-//             ajaxGet();
-//             $('#myTab a[href="#user-panel"]').tab('show');
-//         }
-//     });
-//
-// }
-
-//3rd
-// function addUser(login, password) {
-//     var idRoles = [];
-//     idRoles = $('#rol').val();
-//
-//     var user = { login:login , password: password , roles: idRoles};
-//     $.ajax({
-//         type: 'post',
-//         url: '/addUser',
-//         data: JSON.stringify(user),
-//         contentType: "application/json; charset=utf-8",
-//         dataType: "json",
-//         error: function (message) {
-//             console.log(message);
-//             //ajaxGet();
-//             //$('#myTab a[href="#user-panel"]').tab('show');
-//         },
-//         success: function () {
-//             ajaxGet();
-//             $('#myTab a[href="#user-panel"]').tab('show');
-//         }
-//     });
-//
-// }
 
 //Dima Sensei
 function addUser(login, password) {
     var idRoles = [];
     idRoles = $('#rol').val();
-
+    var logRoles = [];
+    logRoles = $('#rol').text();
     var roles = [];
 
-    for(var i = 0; i < idRoles.length; i++) {
+    for (var i = 0; i < idRoles.length; i++) {
         roles[i] = {
-            id : i+1,
-            role : idRoles[i]
+            id: idRoles[i],
+            role: logRoles[i]
         };
     }
 
-    var user = { login:login , password: password , roles: roles};
+    var user = {login: login, password: password, roles: roles};
     $.ajax({
         type: 'post',
         url: '/addUser',
@@ -130,30 +115,77 @@ function addUser(login, password) {
 
 }
 
-$(document).ready(function() {
+// $(document).ready(function () {
+//     getAllRoles();
+// })
+//
+// function getAllRoles(){
+//     $.ajax({
+//         type:'get',
+//         url:'/getAllRoles',
+//         success: function (result) {
+//             var selectForm = []
+//             $.each(result, function (i, role) {
+//                 selectForm[i]=role.role;
+//             })
+//             $('rol').val(selectForm);
+//         }
+//
+//     })
+// }
+
+//2nd try
+$(document).ready(function () {
+    getAllRoles();
+})
+
+function getAllRoles() {
+    $.ajax({
+        type: 'get',
+        url: '/getAllRoles',
+        success: function (result) {
+            $.each(result, function (i, role) {
+                var selectForm = '<option value="' + role.id + '">' + role.role + '</option>';
+                $('#rol').append(selectForm);
+                //$('#roled').append(selectForm);
+
+            });
+        },
+        error: function (message) {
+            console.log(message);
+        }
+
+    })
+}
+
+// <option th:each="role : ${roles}"
+// th:value="${role}"><span
+// th:text="${role.role}"></span></option>
+
+$(document).ready(function () {
     ajaxGet();
 })
 
-function ajaxGet(){
+function ajaxGet() {
     $.ajax({
-        type : "GET",
-        url :  "/getUsers",
-        success: function(result){
+        type: "GET",
+        url: "/getUsers",
+        success: function (result) {
             $('#users_table tbody').empty();
-            $.each(result, function(i, user){
+            $.each(result, function (i, user) {
                 var userRow = '<tr>' +
                     '<td>' + user.id + '</td>' +
                     '<td>' + user.login + '</td>' +
                     '<td>' + user.password + '</td>' +
-                    '<td>' + getRoles(user.roles) +'</td>'+
+                    '<td>' + getRoles(user.roles) + '</td>' +
                     '<td> \n' +
-                    '<div class="btn-group-vertical btn-group-xs"> \n'+
-                    '<a onclick="showModal(' + user.id + ',\'' + user.login +'\',\'' + user.password +'\')" \n' +
+                    '<div class="btn-group-vertical btn-group-xs"> \n' +
+                    '<a onclick="showModal(' + user.id + ',\'' + user.login + '\',\'' + user.password + '\')" \n' +
                     'class="btn btn-default"> \n' +
                     '<i class="glyphicon glyphicon-pencil"></i>Edit</a> \n' +
                     '<a class="btn btn-success"\n' +
                     'onclick="delRest(' + user.id + ')"><i class="glyphicon glyphicon-trash"></i>Delete</a> \n' +
-                    '</div></td> \n'+
+                    '</div></td> \n' +
                     '</tr>';
 
                 $('#users_table tbody').append(userRow);
@@ -161,7 +193,7 @@ function ajaxGet(){
             });
 
         },
-        error : function(message) {
+        error: function (message) {
             console.log(message);
         }
     });
@@ -169,12 +201,13 @@ function ajaxGet(){
 
 function getRoles(roles) {
     var roleList = '';
-    if (roles.length==0){
-        roleList='anonymus';
+    if (roles.length == 0) {
+        roleList = 'anonymus';
     }
-    for(var i=0; i<roles.length;i++){
-        roleList+=roles[i].role;
-        roleList+=' ';
+    for (var i = 0; i < roles.length; i++) {
+        roleList += roles[i].role;
+        roleList += ' ';
     }
     return roleList;
 }
+

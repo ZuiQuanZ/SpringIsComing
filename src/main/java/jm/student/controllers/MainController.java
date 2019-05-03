@@ -1,6 +1,5 @@
 package jm.student.controllers;
 
-import jm.student.models.Role;
 import jm.student.models.User;
 import jm.student.secutiry.utility.CodeMessenger;
 import jm.student.secutiry.utility.ErrorCode;
@@ -10,13 +9,11 @@ import jm.student.service.abstraction.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 @Controller
 public class MainController {
@@ -51,8 +48,6 @@ public class MainController {
         String user = SecurityContextHolder.getContext().getAuthentication().getName();
         System.out.println(user);
         if (!user.equals("anonymousUser")) {
-            // todo: доделать
-
             model.setViewName("redirect:" + request.getHeader("refer"));
             return model;
         }
@@ -69,15 +64,14 @@ public class MainController {
         return model;
     }
 
-    //todo: реализовать через рест
     @GetMapping("/admin")
     public ModelAndView usersListPage(@ModelAttribute ModelAndView model) {
-        List<User> users = userService.getAllUsers();
+       // List<User> users = userService.getAllUsers();
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         model.addObject("admin", userService.getById(user.getId()));
-        model.addObject("users", users);
-        model.addObject("roles", roleService.getAllRoles());
+       // model.addObject("users", users);
+       // model.addObject("roles", roleService.getAllRoles());
         return model;
     }
 
@@ -89,57 +83,57 @@ public class MainController {
         return model;
     }
 
-    @GetMapping("/example")
-     public ModelAndView examPage(@ModelAttribute ModelAndView model) {
-         model.addObject(userService.getById(Long.valueOf(1)));
-         return model;
-     }
+//    @GetMapping("/example")
+//     public ModelAndView examPage(@ModelAttribute ModelAndView model) {
+//         model.addObject(userService.getById(Long.valueOf(1)));
+//         return model;
+//     }
 
 
 
     // todo: реализовать через рест
-    @GetMapping("/admin/editUser")
-    public ModelAndView editUserPage(@ModelAttribute ModelAndView model, @RequestParam("id") Long id) {
-        model.addObject("roles", roleService.getAllRoles());
-        model.addObject("user", userService.getById(id));
-        return model;
-    }
+//    @GetMapping("/admin/editUser")
+//    public ModelAndView editUserPage(@ModelAttribute ModelAndView model, @RequestParam("id") Long id) {
+//        model.addObject("roles", roleService.getAllRoles());
+//        model.addObject("user", userService.getById(id));
+//        return model;
+//    }
 
     // todo: реализовать через рест
-    @PostMapping("/admin/editUser")
-    public String editUser(@ModelAttribute User user, @RequestParam(value = "roled", required = false) Long[] idRoles) {
-        Set<Role> roles = new HashSet<>();
-
-        if (idRoles != null) {
-            for (Long id : idRoles) {
-                roles.add(roleService.getRoleById(id));
-            }
-        }
-
-        user.setRoles(roles);
-        userService.editUser(user);
-        return "redirect:/admin";
-    }
-
-    // todo: реализовать через рест
-    @GetMapping("/admin/deleteUser/{id}")
-    public String deleteUser(@PathVariable("id") Long id) {
-        userService.removeUser(id);
-        return "redirect:/admin";
-    }
+//    @PostMapping("/admin/editUser")
+//    public String editUser(@ModelAttribute User user, @RequestParam(value = "roled", required = false) Long[] idRoles) {
+//        Set<Role> roles = new HashSet<>();
+//
+//        if (idRoles != null) {
+//            for (Long id : idRoles) {
+//                roles.add(roleService.getRoleById(id));
+//            }
+//        }
+//
+//        user.setRoles(roles);
+//        userService.editUser(user);
+//        return "redirect:/admin";
+//    }
 
     // todo: реализовать через рест
-    @PostMapping("/admin/addUser")
-    public String addUser(@ModelAttribute User user, @RequestParam(value = "rol", required = false) Long[] idRoles) {
-        Set<Role> roles = new HashSet<>();
-        if (idRoles != null) {
-            for (Long id : idRoles) {
-                roles.add(roleService.getRoleById(id));
-            }
-        }
-        user.setRoles(roles);
-        userService.addUser(user);
+//    @GetMapping("/admin/deleteUser/{id}")
+//    public String deleteUser(@PathVariable("id") Long id) {
+//        userService.removeUser(id);
+//        return "redirect:/admin";
+//    }
 
-        return "redirect:/admin";
-    }
+    // todo: реализовать через рест
+//    @PostMapping("/admin/addUser")
+//    public String addUser(@ModelAttribute User user, @RequestParam(value = "rol", required = false) Long[] idRoles) {
+//        Set<Role> roles = new HashSet<>();
+//        if (idRoles != null) {
+//            for (Long id : idRoles) {
+//                roles.add(roleService.getRoleById(id));
+//            }
+//        }
+//        user.setRoles(roles);
+//        userService.addUser(user);
+//
+//        return "redirect:/admin";
+//    }
 }

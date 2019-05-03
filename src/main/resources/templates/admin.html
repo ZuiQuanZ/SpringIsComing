@@ -17,41 +17,6 @@
     <script src="modal.js"></script>
     <link rel="stylesheet" href="mystyle.css"/>
 
-    <!-- <style>
-         body {
-             background: #9ebfee;
-         }
-
-         .left-menu {
-             background: lightgoldenrodyellow;
-             padding: 20px 0 0 0;
-             min-height: 94vh;
-         }
-
-
-         .left-menu ul li {
-             margin: 0px;
-         }
-
-         .left-menu ul li a {
-             border-radius: 0px;
-         }
-
-         .nav-content {
-             margin-bottom: -1px;
-         }
-
-         .edit-form label {
-             font-weight: 100;
-             font-size: 20px;
-             margin: 10px 0 10px 0;
-         }
-
-         .add-user-button {
-             margin-top: 30px;
-         }
-     </style>-->
-
 </head>
 
 <body >
@@ -139,28 +104,7 @@
                                             </tr>
                                             </thead>
                                             <tbody>
-                                            <!--<tr th:each="user : ${users}">
-
-                                                <td th:text="${user.id}">...</td>
-                                                <td th:text="${user.login}">...</td>
-                                                <td th:text="${user.password}"></td>
-                                                <td th:text="${user.roles}"></td>
-                                                <td>
-                                                    <div class="btn-group-vertical btn-group-xs">
-                                                        <a
-                                                                th:onclick="'showModal(' +${user.id}+',\''+${user.login}+'\',\''+${user.password} +'\')'"
-                                                                class="btn btn-default"><i
-                                                                class="glyphicon glyphicon-pencil"></i>Edit</a>
-                                                        <a class="btn btn-primary"
-                                                           th:href="@{/admin/deleteUser/__${user.id}__}"><i
-                                                                class="glyphicon glyphicon-trash"></i>Delete</a>
-                                                        <a class="btn btn-success"
-                                                           th:onclick="'delRest('+${user.id}+')'"><i
-                                                                class="glyphicon glyphicon-trash"></i>DelRest</a>
-                                                    </div>
-
-                                                </td>
-                                            </tr> -->
+                                                <!-- loaded from ajaxget() -->
                                             </tbody>
                                         </table>
                                     </div>
@@ -196,9 +140,9 @@
                                                         <label for="rol">Roles</label>
                                                         <select name="rol" id="rol" class="selectpicker"
                                                                 multiple="multiple">
-                                                            <option th:each="role : ${roles}"
+                                         <!--                   <option th:each="role : ${roles}"
                                                                     th:value="${role}"><span
-                                                                    th:text="${role.role}"></span></option>
+                                                                    th:text="${role.role}"></span></option> -->
 
                                                         </select>
 
@@ -259,9 +203,9 @@
                         <div class="row">
                             <div class="col-lg-6 col-lg-offset-3">
 
-                                <form id="edit-form"
-                                      th:action="@{/admin/editUser}"
-                                      method="POST">
+                                <form id="edit-form">
+                                      <!--th:action="@{/admin/editUser}"
+                                      method="POST"-->
                                     <div class="form-group text-center edit-form">
 
 
@@ -279,8 +223,8 @@
                                         <select name="roled" id="roled" class="selectpicker"
                                                 multiple="multiple">
 
-                                            <option th:each="role : ${roles}"
-                                                    th:value="${role.id}"><span th:text="${role.role}"></span></option>
+                                            <!--<option th:each="role : ${roles}"-->
+                                                    <!--th:value="${role.role}"><span th:text="${role.role}"></span></option>-->
 
                                         </select>
 

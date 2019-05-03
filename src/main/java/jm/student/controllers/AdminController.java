@@ -6,6 +6,7 @@ import jm.student.service.abstraction.RoleService;
 import jm.student.service.abstraction.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashSet;
@@ -35,11 +36,12 @@ public class AdminController {
     }
 
     @GetMapping("/getUser")
-    public void getUser(User user) {
-        System.out.println(user.getId() + " " + user.getLogin() + " " + user.getPassword());
+    public User getUser() {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return userService.getById(user.getId());
     }
 
-    @GetMapping("/delRest")
+    @GetMapping("admin/delRest")
     public void delRest(Long id) {
         userService.removeUser(id);
     }
@@ -52,6 +54,13 @@ public class AdminController {
     @PostMapping(path = "/addUser", consumes = "application/json")
     public void addUser(@RequestBody User user) {
         userService.addUser(user);
+        // todo: толбко admin проходит , подебажить с узером
+    }
+
+    @PostMapping(path = "/editUser", consumes = "application/json")
+    public void editUser(@RequestBody User user) {
+        userService.editUser(user);
+        // todo: толбко admin проходит , подебажить с узером
     }
 
 //    @PostMapping("/addUser")
@@ -62,6 +71,11 @@ public class AdminController {
     @GetMapping("/getUsers")
     public List<User> getUsers() {
         return userService.getAllUsers();
+    }
+
+    @GetMapping("/getAllRoles")
+    public  List<Role> getAllRoles(){
+        return roleService.getAllRoles();
     }
 
 }
