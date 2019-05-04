@@ -14,6 +14,7 @@
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.2/css/bootstrap-select.min.css"/>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.2/js/bootstrap-select.min.js"></script>
+    <!--todo: КАКОГО ХЕРА НЕЛЬЗЯ СДЕЛАТЬ РЕФАКТОР -->
     <script src="modal.js"></script>
     <link rel="stylesheet" href="mystyle.css"/>
 
@@ -122,8 +123,6 @@
                                             <div class="row">
                                                 <div class="col-lg-6 col-lg-offset-3">
 
-                                                    <!-- <form th:action="@{/admin/addUser}"
-                                                          method="POST"> -->
                                                     <div class="form-group text-center edit-form">
 
 
@@ -140,9 +139,7 @@
                                                         <label for="rol">Roles</label>
                                                         <select name="rol" id="rol" class="selectpicker"
                                                                 multiple="multiple">
-                                         <!--                   <option th:each="role : ${roles}"
-                                                                    th:value="${role}"><span
-                                                                    th:text="${role.role}"></span></option> -->
+                                                                <!-- LOADED from getAllRoles -->
 
                                                         </select>
 
@@ -153,7 +150,6 @@
                                                             Add new user
                                                         </button>
                                                     </div>
-                                                    <!-- </form>-->
                                                 </div>
                                             </div>
                                         </div>
@@ -204,8 +200,6 @@
                             <div class="col-lg-6 col-lg-offset-3">
 
                                 <form id="edit-form">
-                                      <!--th:action="@{/admin/editUser}"
-                                      method="POST"-->
                                     <div class="form-group text-center edit-form">
 
 
@@ -222,10 +216,7 @@
                                         <label for="roled">Roles</label>
                                         <select name="roled" id="roled" class="selectpicker"
                                                 multiple="multiple">
-
-                                            <!--<option th:each="role : ${roles}"-->
-                                                    <!--th:value="${role.role}"><span th:text="${role.role}"></span></option>-->
-
+                                            <!-- Loaded from GetAllRoles -->
                                         </select>
 
                                     </div>

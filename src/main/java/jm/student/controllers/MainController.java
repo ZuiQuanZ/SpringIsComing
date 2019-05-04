@@ -27,15 +27,6 @@ public class MainController {
         this.roleService = roleService;
     }
 
-    @GetMapping("/users")
-    public ModelAndView getUserPage(ModelAndView model) {
-        User user = userService.getById(Long.valueOf(1));
-        model.setViewName("hello");
-        String password = user.getLogin();
-        model.addObject("name", password);
-        return model;
-    }
-
     @GetMapping("/")
     public String toLoginPage() {
         return "redirect:/login";
@@ -66,12 +57,10 @@ public class MainController {
 
     @GetMapping("/admin")
     public ModelAndView usersListPage(@ModelAttribute ModelAndView model) {
-       // List<User> users = userService.getAllUsers();
+
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         model.addObject("admin", userService.getById(user.getId()));
-       // model.addObject("users", users);
-       // model.addObject("roles", roleService.getAllRoles());
         return model;
     }
 

@@ -3,7 +3,6 @@ package jm.student.models;
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
 @Table(name = "roles")
@@ -15,12 +14,6 @@ public class Role implements GrantedAuthority {
     @Column(unique = true)
     private String role;
 
-//    @ManyToMany(fetch = FetchType.LAZY, targetEntity = User.class)
-//    @JoinTable(name = "security",
-//            joinColumns = {@JoinColumn(name = "role_id")},
-//            inverseJoinColumns = {@JoinColumn(name = "user_id")})
-//    private List<User> users;
-
     public Role() {
     }
 
@@ -28,7 +21,7 @@ public class Role implements GrantedAuthority {
         this.role = role;
     }
 
-    //public Role(Long id) {this.id=id;}
+
 
     public Long getId() {
         return id;
@@ -46,13 +39,6 @@ public class Role implements GrantedAuthority {
         this.role = role;
     }
 
-//    public List<User> getUsers() {
-//        return users;
-//    }
-//
-//    public void setUsers(List<User> users) {
-//        this.users = users;
-//    }
 
     @Override
     public String getAuthority() {

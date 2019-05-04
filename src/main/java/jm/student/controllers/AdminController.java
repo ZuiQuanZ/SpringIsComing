@@ -5,13 +5,12 @@ import jm.student.models.User;
 import jm.student.service.abstraction.RoleService;
 import jm.student.service.abstraction.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @RestController
 public class AdminController {
@@ -24,56 +23,28 @@ public class AdminController {
         this.roleService = roleService;
     }
 
-    @GetMapping("/getLogin")
-    public String getLogin(@RequestParam(value = "id", required = false) Long id) {
-
-        return userService.getById(Long.valueOf(id)).getLogin();
-    }
-
-    @GetMapping("/getResp")
-    public ResponseEntity<User> getResponse(@RequestParam(value = "id", required = false) Long id) {
-        return ResponseEntity.ok(userService.getById(Long.valueOf(id)));
-    }
-
-    @GetMapping("/getUser")
-    public User getUser() {
-        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return userService.getById(user.getId());
-    }
-
-    @GetMapping("admin/delRest")
+    @GetMapping("/admin/delRest")
     public void delRest(Long id) {
         userService.removeUser(id);
     }
 
-    @GetMapping("/printUser")
-    public void printUser(Long id, String login) {
-        System.out.println(id + ' ' + login);
-    }
 
-    @PostMapping(path = "/addUser", consumes = "application/json")
+    @PostMapping(path = "/admin/addUser", consumes = "application/json")
     public void addUser(@RequestBody User user) {
         userService.addUser(user);
-        // todo: толбко admin проходит , подебажить с узером
     }
 
-    @PostMapping(path = "/editUser", consumes = "application/json")
+    @PostMapping(path = "/admin/editUser", consumes = "application/json")
     public void editUser(@RequestBody User user) {
         userService.editUser(user);
-        // todo: толбко admin проходит , подебажить с узером
     }
 
-//    @PostMapping("/addUser")
-//    public void addUser( @RequestBody( required = false) Long[] idRoles) {
-//        System.out.println(idRoles[0]);
-//    }
-
-    @GetMapping("/getUsers")
+    @GetMapping("/admin/getUsers")
     public List<User> getUsers() {
         return userService.getAllUsers();
     }
 
-    @GetMapping("/getAllRoles")
+    @GetMapping("/admin/getAllRoles")
     public  List<Role> getAllRoles(){
         return roleService.getAllRoles();
     }

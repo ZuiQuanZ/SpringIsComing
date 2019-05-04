@@ -6,19 +6,7 @@ function showModal(id, login, password) {
     $('#myModal').modal();
 }
 
-function showUser()
-{
-    $.ajax({
-        type:'get',
-        url:'/getUser',
-        success: function (user) {
-            document.getElementById('right').innerHTML(user.login);
-        },
-        error: function (message) {
-            console.log(message);
-        }
-})
-}
+
 $(document).ready(function () {
     $("#edit-submit").click(function () {
         var idRoles = [];
@@ -27,12 +15,6 @@ $(document).ready(function () {
         logRoles = $('#roled').text();
         var roles = [];
 
-        for (var i = 0; i < idRoles.length; i++) {
-            roles[i] = {
-                id: idRoles[i],
-                role: logRoles[i]
-            };
-        }
         for (var i = 0; i < idRoles.length; i++) {
             roles[i] = {
                 id: idRoles[i],
@@ -48,7 +30,7 @@ $(document).ready(function () {
         };
         $.ajax({
             type: 'post',
-            url: '/editUser',
+            url: '/admin/editUser',
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             data: JSON.stringify(user),
@@ -98,7 +80,7 @@ function addUser(login, password) {
     var user = {login: login, password: password, roles: roles};
     $.ajax({
         type: 'post',
-        url: '/addUser',
+        url: '/admin/addUser',
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         data: JSON.stringify(user),
@@ -115,26 +97,6 @@ function addUser(login, password) {
 
 }
 
-// $(document).ready(function () {
-//     getAllRoles();
-// })
-//
-// function getAllRoles(){
-//     $.ajax({
-//         type:'get',
-//         url:'/getAllRoles',
-//         success: function (result) {
-//             var selectForm = []
-//             $.each(result, function (i, role) {
-//                 selectForm[i]=role.role;
-//             })
-//             $('rol').val(selectForm);
-//         }
-//
-//     })
-// }
-
-//2nd try
 $(document).ready(function () {
     getAllRoles();
 })
@@ -142,12 +104,16 @@ $(document).ready(function () {
 function getAllRoles() {
     $.ajax({
         type: 'get',
-        url: '/getAllRoles',
+        url: '/admin/getAllRoles',
         success: function (result) {
+            //todo: работает после обновления!
             $.each(result, function (i, role) {
                 var selectForm = '<option value="' + role.id + '">' + role.role + '</option>';
                 $('#rol').append(selectForm);
-                //$('#roled').append(selectForm);
+            });
+            $.each(result, function (i, role) {
+                var selectForm = '<option value="' + role.id + '">' + role.role + '</option>';
+                $('#roled').append(selectForm);
 
             });
         },
@@ -158,10 +124,6 @@ function getAllRoles() {
     })
 }
 
-// <option th:each="role : ${roles}"
-// th:value="${role}"><span
-// th:text="${role.role}"></span></option>
-
 $(document).ready(function () {
     ajaxGet();
 })
@@ -169,7 +131,7 @@ $(document).ready(function () {
 function ajaxGet() {
     $.ajax({
         type: "GET",
-        url: "/getUsers",
+        url: "/admin/getUsers",
         success: function (result) {
             $('#users_table tbody').empty();
             $.each(result, function (i, user) {
