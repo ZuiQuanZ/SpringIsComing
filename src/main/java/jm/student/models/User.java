@@ -1,17 +1,14 @@
 package jm.student.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import java.util.Collection;
 import java.util.Objects;
 import java.util.Set;
 
 @Entity
 @Table(name = "users")
-public class User implements UserDetails {
+public class User {
     @Id
     @GeneratedValue
 
@@ -81,48 +78,16 @@ public class User implements UserDetails {
         return roles;
     }
 
-    public Boolean isAdmin () {
-        return ( roles.contains(new Role("ADMIN")) ? true : false );
-    }
-
-    public Boolean isUser () {
-        return ( roles.contains(new Role("USER")) ? true : false );
-    }
-
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
     }
 
-    @JsonIgnore
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return roles;
-    }
-
-    @Override
     public String getPassword() {
         return password;
     }
 
-    @Override
     public String getUsername() {
         return login;
-    }
-
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    public boolean isEnabled() {
-        return enabled;
     }
 
     @Override

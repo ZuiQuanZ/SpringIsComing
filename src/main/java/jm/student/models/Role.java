@@ -1,12 +1,9 @@
 package jm.student.models;
-
-import org.springframework.security.core.GrantedAuthority;
-
 import javax.persistence.*;
 
 @Entity
 @Table(name = "roles")
-public class Role implements GrantedAuthority {
+public class Role  {
     @Id
     @GeneratedValue
     private Long id;
@@ -40,10 +37,6 @@ public class Role implements GrantedAuthority {
     }
 
 
-    @Override
-    public String getAuthority() {
-        return role;
-    }
 
     @Override
     public String toString() {
