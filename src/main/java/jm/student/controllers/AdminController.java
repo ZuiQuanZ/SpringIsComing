@@ -54,20 +54,18 @@ public class AdminController {
 
     @GetMapping(value = "/removeUserById/{id}")
     @ResponseBody
-    public void removeUserByIdFrClient (@PathVariable("id") Long id){
+    public void removeUserByIdFrClient(@PathVariable("id") Long id) {
         userService.removeUser(id);
     }
+
     @PostMapping(path = "/addUserFromClient", consumes = "application/json")
     public void addUserFromClient(@RequestBody User user) {
-        user.setId(null);
         userService.addUser(user);
-        System.out.println(userService.getById(user.getId()).getLogin());
     }
 
     @PostMapping(path = "/editUserFromClient", consumes = "application/json")
     public void editUserFromClient(@RequestBody User user) {
         userService.editUser(user);
-        System.out.println(userService.getById(user.getId()).getLogin());
     }
 
 }
