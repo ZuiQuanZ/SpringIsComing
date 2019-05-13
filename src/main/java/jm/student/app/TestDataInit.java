@@ -2,8 +2,8 @@ package jm.student.app;
 
 import jm.student.models.Role;
 import jm.student.models.User;
-import jm.student.service.abstraction.RoleService;
-import jm.student.service.abstraction.UserService;
+import jm.student.services.RoleService;
+import jm.student.services.UserService;
 
 import java.util.HashSet;
 import java.util.Set;

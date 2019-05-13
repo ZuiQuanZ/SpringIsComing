@@ -1,7 +1,7 @@
 package jm.student.app;
 
-import jm.student.service.abstraction.RoleService;
-import jm.student.service.abstraction.UserService;
+import jm.student.services.RoleService;
+import jm.student.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

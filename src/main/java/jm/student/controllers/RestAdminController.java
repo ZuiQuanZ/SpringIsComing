@@ -2,8 +2,8 @@ package jm.student.controllers;
 
 import jm.student.models.Role;
 import jm.student.models.User;
-import jm.student.service.abstraction.RoleService;
-import jm.student.service.abstraction.UserService;
+import jm.student.services.RoleService;
+import jm.student.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -11,12 +11,12 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-public class AdminController {
+public class RestAdminController {
     private UserService userService;
     private RoleService roleService;
 
     @Autowired
-    private AdminController(UserService userService, RoleService roleService) {
+    private RestAdminController(UserService userService, RoleService roleService) {
         this.userService = userService;
         this.roleService = roleService;
     }
@@ -54,17 +54,17 @@ public class AdminController {
 
     @GetMapping(value = "/removeUserById/{id}")
     @ResponseBody
-    public void removeUserByIdFrClient(@PathVariable("id") Long id) {
+    public void removeUserById(@PathVariable("id") Long id) {
         userService.removeUser(id);
     }
 
-    @PostMapping(path = "/addUserFromClient", consumes = "application/json")
-    public void addUserFromClient(@RequestBody User user) {
+    @PostMapping(path = "/addUser", consumes = "application/json")
+    public void addUser(@RequestBody User user) {
         userService.addUser(user);
     }
 
-    @PostMapping(path = "/editUserFromClient", consumes = "application/json")
-    public void editUserFromClient(@RequestBody User user) {
+    @PostMapping(path = "/editUser", consumes = "application/json")
+    public void editUser(@RequestBody User user) {
         userService.editUser(user);
     }
 

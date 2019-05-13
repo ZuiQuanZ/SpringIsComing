@@ -1,8 +1,8 @@
-package jm.student.service.implementation;
+package jm.student.services.impl;
 
 import jm.student.dao.RoleDao;
 import jm.student.models.Role;
-import jm.student.service.abstraction.RoleService;
+import jm.student.services.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
