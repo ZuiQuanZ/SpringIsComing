@@ -18,7 +18,15 @@ public class UserDaoImpl implements UserDao {
         return entityManager.find(User.class, id);
     }
 
-    public User getUserByLogin(String login){ return (User) entityManager.createQuery("select u from User u where u.login = :login").setParameter("login",login).getSingleResult();}
+    public User getUserByLogin(String login) {
+
+        try {
+            return (User) entityManager.createQuery("select u from User u where u.login = :login").setParameter("login", login).getSingleResult();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 
     public void addUser(User user) {
         entityManager.persist(user);

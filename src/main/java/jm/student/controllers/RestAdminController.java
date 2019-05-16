@@ -28,7 +28,7 @@ public class RestAdminController {
         return userService.getById(id);
     }
 
-    @GetMapping(value = "/getUserByLogin/{login}",
+    @GetMapping(value = "/getUserByLogin/{login}/1",
             produces = {MediaType.APPLICATION_JSON_VALUE})
     @ResponseBody
     public User getUser(@PathVariable("login") String login) {
